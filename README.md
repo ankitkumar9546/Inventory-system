@@ -88,7 +88,7 @@ The system is fully deployed online and protected with strict production-grade C
 | **GitHub Repository** | [https://github.com/ankitkumar9546/Inventory-system](https://github.com/ankitkumar9546/Inventory-system) |
 | **Live Frontend URL** | [https://inventory-system-eight-delta.vercel.app](https://inventory-system-eight-delta.vercel.app) |
 | **Live Backend API URL** | [https://inventory-system-production-1447.up.railway.app](https://inventory-system-production-1447.up.railway.app) |
-| **Docker Hub Backend Image** | [https://hub.docker.com/r/ankitkumar9546/inventory-backend](https://hub.docker.com/r/ankitkumar9546/inventory-backend) |
+| **Docker Hub Backend Image** | [https://hub.docker.com/r/mortis954/inventory-backend](https://hub.docker.com/r/mortis954/inventory-backend) |
 
 ---
 
