@@ -163,10 +163,10 @@ Replace these placeholders after deploying with your own accounts:
 
 | Deliverable | Link |
 | --- | --- |
-| GitHub repository | `https://github.com/YOUR_USERNAME/inventory-system` |
-| Docker Hub backend image | `https://hub.docker.com/r/YOUR_DOCKERHUB_USERNAME/inventory-backend` |
-| Live frontend URL | `https://YOUR_FRONTEND_URL` |
-| Live backend API URL | `https://YOUR_BACKEND_URL` |
+| GitHub repository | https://github.com/ankitkumar9546/Inventory-system |
+| Docker Hub backend image | https://hub.docker.com/r/ankitkumar9546/inventory-backend |
+| Live frontend URL | https://inventory-system-eight-delta.vercel.app |
+| Live backend API URL | https://inventory-system-production.up.railway.app |
 
 ## Project Structure
 
