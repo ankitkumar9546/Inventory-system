@@ -1,200 +1,116 @@
-# Oversee Flow - Inventory & Order Management System
+# 📦 Oversee Flow — Inventory & Order Management System
 
-Production-ready full-stack inventory and order management system built with React, FastAPI, PostgreSQL, Docker, and Docker Compose.
+**Oversee Flow** is a lightweight, responsive web application designed to help businesses manage their products, customers, and orders. The project is designed with a React single-page app frontend, a fast FastAPI backend, and a PostgreSQL database. It is fully containerized and configured for quick local setups or direct online hosting.
 
-## Tech Stack
+---
 
-| Layer | Technology |
-| --- | --- |
-| Backend | Python 3.11, FastAPI, SQLAlchemy, Pydantic |
-| Frontend | React 18, React Router, Axios, React Hot Toast |
-| Database | PostgreSQL 15 |
-| Containerization | Docker, Docker Compose |
-| Deployment Targets | Render or Railway for API, Vercel or Netlify for frontend |
+## 🛠️ The Tech Stack
 
-## Features
+* **Frontend**: React 18, React Router v6, Axios, custom modern styling, and `react-hot-toast` for fluid user feedback.
+* **Backend**: Python 3.11, FastAPI (structured with APIRouter and clean endpoints), SQLAlchemy (with database row-level locking for inventory sanity), and Pydantic v2 for solid validation.
+* **Database**: PostgreSQL 15.
+* **Orchestration & Tooling**: Docker, Docker Compose, Nginx (frontend static hosting & reverse proxy), and Git.
 
-- Product CRUD with unique SKU validation, pricing, stock quantity, and optional description.
-- Customer creation/listing/deletion with unique validated email addresses.
-- Order creation, listing, detail view, and cancellation.
-- Backend-calculated order totals.
-- Inventory deduction on order creation and inventory restoration on cancellation.
-- Insufficient-stock protection, including duplicate product lines in the same order.
-- Dashboard with total products, customers, orders, and low-stock products.
-- Responsive React UI with form validation and clear success/error messages.
-- Fully containerized backend, frontend, and PostgreSQL services.
+---
 
-## Quick Start With Docker Compose
+## ✨ Features That Make It Solid
 
-1. Copy the environment template:
+1. **Intelligent Stock Protection**: Places row-level database locks (`with_for_update`) during checkout to prevent concurrency/race issues. If two people buy the same product at the exact same millisecond, the database handles it safely.
+2. **Double-buy Aggregation**: If an order contains the same product on multiple lines, the backend aggregates the quantities first before comparing against stock levels.
+3. **Safe Order Cancellations**: When you delete/cancel an order, all matching items are returned back to stock.
+4. **Unique SKU & Email Protection**: Automatic case-insensitive checks and database constraint fallback catches duplicate SKUs and customer emails cleanly.
+5. **Real-time Dashboard**: Quick metrics on total inventory count, active customer list, orders, and a low-stock alert system.
 
-```bash
-cp .env.example .env
-```
+---
 
-2. Edit `.env` and set a secure `POSTGRES_PASSWORD`.
+## ⚡ Quick Start with Docker Compose
 
-3. Start the full stack:
+If you have Docker installed, you can spin up the database, API, and frontend in one go:
 
-```bash
-docker compose up --build
-```
+1. **Set up your environment**:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Open `.env` and set a secure `POSTGRES_PASSWORD`).*
 
-4. Open the services:
+2. **Launch the services**:
+   ```bash
+   docker compose up --build
+   ```
 
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API docs: http://localhost:8000/docs
+3. **Enjoy the app locally**:
+   * **React Frontend**: [http://localhost:3000](http://localhost:3000)
+   * **FastAPI Web Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+   * **API Health Check**: [http://localhost:8000/health](http://localhost:8000/health)
 
-## API Endpoints
+---
 
-### Products
+## 💻 Manual Setup (Local Development)
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/products` | Create product |
-| GET | `/products` | List products |
-| GET | `/products/{id}` | Get product by ID |
-| PUT | `/products/{id}` | Update product |
-| DELETE | `/products/{id}` | Delete product |
+If you prefer to run services natively for active debugging or hot-reloading:
 
-### Customers
+### 🐍 Backend API Setup
+*Note: If you are using Python 3.14 on Windows, Pydantic-core wheel compilation might fail due to PyO3 maximum version limits. We highly recommend using Python 3.12 (inside `backend/.venv312` which is pre-configured).*
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/customers` | Create customer |
-| GET | `/customers` | List customers |
-| GET | `/customers/{id}` | Get customer by ID |
-| DELETE | `/customers/{id}` | Delete customer |
+1. **Navigate and activate virtual environment**:
+   ```bash
+   cd backend
+   # Windows:
+   .\.venv312\Scripts\activate
+   # Linux/macOS:
+   source .venv312/bin/activate
+   ```
+2. **Run tests**:
+   ```bash
+   pytest
+   ```
+3. **Start backend**:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
 
-### Orders
+### ⚛️ Frontend React Setup
+1. **Navigate and launch**:
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/orders` | Create order |
-| GET | `/orders` | List orders |
-| GET | `/orders/{id}` | Get order details |
-| DELETE | `/orders/{id}` | Cancel/delete order and restore stock |
+---
 
-### Dashboard And Health
+## 🔗 Live Production URLs
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/dashboard` | Summary metrics and low-stock products |
-| GET | `/health` | Health check |
-
-## Local Development
-
-Backend:
-
-```bash
-cd backend
-pip install -r requirements-dev.txt
-pytest
-uvicorn app.main:app --reload
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-## Environment Variables
-
-| Variable | Used By | Description |
-| --- | --- | --- |
-| `POSTGRES_USER` | Docker Compose database | PostgreSQL username |
-| `POSTGRES_PASSWORD` | Docker Compose database | PostgreSQL password; required |
-| `POSTGRES_DB` | Docker Compose database | PostgreSQL database name |
-| `DATABASE_URL` | Backend hosting | External PostgreSQL connection string |
-| `CORS_ORIGINS` | Backend | Comma-separated allowed frontend origins |
-| `REACT_APP_API_URL` | Frontend | Public backend API URL |
-
-## Deployment
-
-### Backend On Render
-
-The repository includes `render.yaml` for a Render Blueprint deployment. After pushing to GitHub:
-
-1. Create a new Blueprint from the repository.
-2. Set `CORS_ORIGINS` to the deployed frontend URL.
-3. Confirm the generated PostgreSQL connection is mapped to `DATABASE_URL`.
-4. Deploy and verify `/health` and `/docs`.
-
-Manual Render web service settings:
-
-- Root directory: `backend`
-- Environment: Docker
-- Health check path: `/health`
-- Required environment variables: `DATABASE_URL`, `CORS_ORIGINS`
-
-### Frontend On Vercel
-
-1. Import the GitHub repository in Vercel.
-2. Set the root directory to `frontend`.
-3. Set `REACT_APP_API_URL` to the deployed backend API URL.
-4. Deploy.
-
-The `frontend/vercel.json` file keeps React Router routes working on refresh.
-
-### Frontend On Netlify
-
-1. Import the GitHub repository in Netlify.
-2. Set the base directory to `frontend`.
-3. Build command: `npm run build`
-4. Publish directory: `build`
-5. Set `REACT_APP_API_URL` to the deployed backend API URL.
-
-The `frontend/netlify.toml` file includes the SPA redirect rule.
-
-### Docker Hub Backend Image
-
-```bash
-docker build -t YOUR_DOCKERHUB_USERNAME/inventory-backend:latest ./backend
-docker push YOUR_DOCKERHUB_USERNAME/inventory-backend:latest
-```
-
-## Submission Links
-
-Replace these placeholders after deploying with your own accounts:
+The system is fully deployed online and protected with strict production-grade CORS configurations.
 
 | Deliverable | Link |
-| --- | --- |
-| GitHub repository | https://github.com/ankitkumar9546/Inventory-system |
-| Docker Hub backend image | https://hub.docker.com/r/ankitkumar9546/inventory-backend |
-| Live frontend URL | https://inventory-system-eight-delta.vercel.app |
-| Live backend API URL | https://inventory-system-production.up.railway.app |
+| :--- | :--- |
+| **GitHub Repository** | [https://github.com/ankitkumar9546/Inventory-system](https://github.com/ankitkumar9546/Inventory-system) |
+| **Live Frontend URL** | [https://inventory-system-eight-delta.vercel.app](https://inventory-system-eight-delta.vercel.app) |
+| **Live Backend API URL** | [https://inventory-system-production.up.railway.app](https://inventory-system-production.up.railway.app) |
+| **Docker Hub Backend Image** | [https://hub.docker.com/r/ankitkumar9546/inventory-backend](https://hub.docker.com/r/ankitkumar9546/inventory-backend) |
 
-## Project Structure
+---
+
+## 📂 Project Anatomy
 
 ```text
 inventory-system/
-  backend/
+  backend/               # FastAPI application, Pydantic schemas, and tests
     app/
-      main.py
-      database.py
-      models/
-      routers/
-      schemas/
-    tests/
+      models/            # SQLAlchemy database models
+      routers/           # Products, Customers, and Orders endpoints
+      schemas/           # Pydantic data schemas & text sanitization
+      database.py        # Connection setup (SQLite/PostgreSQL switcher)
+      main.py            # CORS middleware and core routes
+    tests/               # Pytest suite
     Dockerfile
-    requirements.txt
-    requirements-dev.txt
-  frontend/
-    public/
+  frontend/              # React single-page app
     src/
-      api/
-      pages/
-      App.js
-      App.css
+      api/               # Axios central request handler
+      pages/             # Customers, Dashboard, Orders, Products pages
+      App.js             # Route structure and main layout
+    vercel.json          # SPA router fallback configurations
     Dockerfile
-    nginx.conf
-    netlify.toml
-    vercel.json
-  docker-compose.yml
-  render.yaml
-  .env.example
+  docker-compose.yml     # Orchestration recipe
 ```
