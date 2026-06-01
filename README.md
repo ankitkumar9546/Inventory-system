@@ -1,4 +1,4 @@
-# 📦 Oversee Flow — Inventory & Order Management System
+#  Oversee Flow — Inventory & Order Management System
 
 **Oversee Flow** is a lightweight, responsive web application designed to help businesses manage their products, customers, and orders. The project is designed with a React single-page app frontend, a fast FastAPI backend, and a PostgreSQL database. It is fully containerized and configured for quick local setups or direct online hosting.
 
@@ -13,7 +13,7 @@
 
 ---
 
-## ✨ Features That Make It Solid
+##  Features That Make It Solid
 
 1. **Intelligent Stock Protection**: Places row-level database locks (`with_for_update`) during checkout to prevent concurrency/race issues. If two people buy the same product at the exact same millisecond, the database handles it safely.
 2. **Double-buy Aggregation**: If an order contains the same product on multiple lines, the backend aggregates the quantities first before comparing against stock levels.
@@ -23,7 +23,7 @@
 
 ---
 
-## ⚡ Quick Start with Docker Compose
+##  Quick Start with Docker Compose
 
 If you have Docker installed, you can spin up the database, API, and frontend in one go:
 
@@ -45,11 +45,11 @@ If you have Docker installed, you can spin up the database, API, and frontend in
 
 ---
 
-## 💻 Manual Setup (Local Development)
+## Manual Setup (Local Development)
 
 If you prefer to run services natively for active debugging or hot-reloading:
 
-### 🐍 Backend API Setup
+###  Backend API Setup
 *Note: If you are using Python 3.14 on Windows, Pydantic-core wheel compilation might fail due to PyO3 maximum version limits. We highly recommend using Python 3.12 (inside `backend/.venv312` which is pre-configured).*
 
 1. **Navigate and activate virtual environment**:
@@ -69,7 +69,7 @@ If you prefer to run services natively for active debugging or hot-reloading:
    uvicorn app.main:app --reload
    ```
 
-### ⚛️ Frontend React Setup
+###  Frontend React Setup
 1. **Navigate and launch**:
    ```bash
    cd frontend
@@ -79,7 +79,7 @@ If you prefer to run services natively for active debugging or hot-reloading:
 
 ---
 
-## 🔗 Live Production URLs
+##  Live Production URLs
 
 The system is fully deployed online and protected with strict production-grade CORS configurations.
 
@@ -92,7 +92,7 @@ The system is fully deployed online and protected with strict production-grade C
 
 ---
 
-## 📂 Project Anatomy
+## Project Anatomy
 
 ```text
 inventory-system/
