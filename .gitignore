@@ -1,0 +1,28 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.venv/
+.venv*/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.coverage
+
+# Node
+node_modules/
+frontend/build/
+
+# Docker
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
